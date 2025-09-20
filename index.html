@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Flores para Mariel Rosario</title>
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    background: #fff8dc;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+    position: relative;
+  }
+
+  h1 {
+    font-size: 2rem;
+    color: #f5c542;
+    margin: 0.5em 0 0.2em 0;
+    z-index: 1;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: #333;
+    max-width: 300px;
+    z-index: 1;
+  }
+
+  .flower {
+    position: absolute;
+    top: -50px;
+    width: 40px;
+    height: 40px;
+    background: url('https://upload.wikimedia.org/wikipedia/commons/b/b5/A_sunflower-Edited.png') no-repeat center center;
+    background-size: contain;
+    animation-name: fall;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(110vh) rotate(360deg); }
+  }
+
+  #playBtn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1rem;
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 2;
+    background-color: #f5c542;
+    border: none;
+    border-radius: 5px;
+  }
+
+  #ytPlayer {
+    display: none;
+  }
+</style>
+</head>
+<body>
+
+<h1>🌻 Mariel Rosario 🌻</h1>
+<p>"No son flores reales, pero sí un detalle especial para alguien especial, Mi Gata"</p>
+
+<!-- Botón para activar música -->
+<button id="playBtn">Toca para escuchar 🎵</button>
+
+<!-- YouTube oculto para música -->
+<iframe id="ytPlayer" src="https://www.youtube.com/embed/hNDtsPMX7p0?enablejsapi=1" frameborder="0" allow="autoplay"></iframe>
+
+<script>
+  // Crear flores
+  const numberOfFlowers = 30;
+  for(let i = 0; i < numberOfFlowers; i++){
+    const flower = document.createElement('div');
+    flower.className = 'flower';
+
+    const size = 20 + Math.random() * 30;
+    flower.style.width = size + 'px';
+    flower.style.height = size + 'px';
+    flower.style.left = Math.random() * 100 + 'vw';
+    flower.style.animationDelay = Math.random() * 5 + 's';
+    flower.style.animationDuration = 3 + Math.random() * 5 + 's';
+    document.body.appendChild(flower);
+  }
+
+  // Reproducir YouTube al tocar el botón
+  const btn = document.getElementById('playBtn');
+  btn.addEventListener('click', () => {
+    // Cargar API de YouTube
+    const tag = document.createElement('script');
+    tag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(tag);
+
+    window.onYouTubeIframeAPIReady = function() {
+      const player = new YT.Player('ytPlayer', {
+        events: {
+          'onReady': function(event) {
+            event.target.playVideo();
+          }
+        }
+      });
+    };
+
+    btn.style.display = 'none'; // Oculta el botón
+  });
+</script>
+
+</body>
+</html>
